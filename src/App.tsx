@@ -1,8 +1,7 @@
 import { useState } from "react";
-import "./App.css";
 
 import ChatRoom from "./components/ChatRoom";
-import JoinModal from "./components/JoinModal";
+import JoinPage from "./components/JoinPage";
 
 const App = () => {
   const [enterRoom, setEnterRoom] = useState<boolean>(false);
@@ -15,14 +14,18 @@ const App = () => {
     setEnterRoom(true);
   };
 
+  const leaveRoom = () => {
+    setEnterRoom(false);
+  }
+
   return (
-    <div>
+    <>
       {enterRoom ? (
-        <ChatRoom username={username} roomId={roomId} />
+        <ChatRoom username={username} roomId={roomId} leaveRoomCallback={leaveRoom}/>
       ) : (
-        <JoinModal submissionCallback={handleModalSubmission} />
+        <JoinPage submissionCallback={handleModalSubmission} />
       )}
-    </div>
+    </>
   );
 };
 

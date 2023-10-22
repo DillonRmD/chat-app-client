@@ -1,19 +1,19 @@
-import { Button, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 
 interface ChatRoomProps {
   username: string;
   roomId: string;
+  leaveRoomCallback: any;
 }
 
 const ChatRoom = (props: ChatRoomProps) => {
-  const { username, roomId } = props;
+  const { username, roomId, leaveRoomCallback } = props;
 
   const [messages, setMessages] = useState<string[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>("");
 
-  const { sendMessage, lastMessage } = useWebSocket(
+  const { sendMessage, lastMessage, getWebSocket } = useWebSocket(
     `ws://localhost:3000?username=${username}&roomId=${roomId}`
   );
 
@@ -22,6 +22,11 @@ const ChatRoom = (props: ChatRoomProps) => {
       setMessages([...messages, lastMessage?.data]);
     }
   }, [lastMessage]);
+
+  const leaveRoom = () => {
+    getWebSocket()?.close();
+    leaveRoomCallback();
+  }
 
   const handleCurrentMessageChange = (event: any) => {
     setCurrentMessage(event.target.value);
@@ -32,22 +37,19 @@ const ChatRoom = (props: ChatRoomProps) => {
   };
 
   return (
-    <Grid container spacing={2} direction="column">
-      Room: {roomId}
-      <Grid item direction="column">
-        <Grid item>
-          Messages
-          {messages.map((message: string, index: number) => {
-            return <h3 key={index}>{message}</h3>;
-          })}
-        </Grid>
-
-      </Grid>
-        <TextField onChange={handleCurrentMessageChange}></TextField>
-        <Button variant="contained" onClick={submitMessage}>
-          Submit
-        </Button>
-    </Grid>
+    <div className="h-screen">
+      <button onClick={leaveRoom}>Leave Room</button>
+      <h1 className="text-left">Room: {roomId}</h1>
+      <div>
+        {messages.map((message: string, index: number) => {
+          return <h3 key={index}>{message}</h3>;
+        })}
+      </div>
+      <div className="sticky bottom-0">
+        <input onChange={handleCurrentMessageChange} className=""></input>
+        <button onClick={submitMessage}>Send</button>
+      </div>
+    </div>
   );
 };
 
