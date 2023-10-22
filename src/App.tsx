@@ -14,10 +14,14 @@ const App = () => {
     setEnterRoom(true);
   };
 
+  const leaveRoom = () => {
+    setEnterRoom(false);
+  }
+
   return (
     <>
       {enterRoom ? (
-        <ChatRoom username={username} roomId={roomId} />
+        <ChatRoom username={username} roomId={roomId} leaveRoomCallback={leaveRoom}/>
       ) : (
         <JoinPage submissionCallback={handleModalSubmission} />
       )}

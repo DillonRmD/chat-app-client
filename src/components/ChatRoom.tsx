@@ -4,15 +4,16 @@ import useWebSocket from "react-use-websocket";
 interface ChatRoomProps {
   username: string;
   roomId: string;
+  leaveRoomCallback: any;
 }
 
 const ChatRoom = (props: ChatRoomProps) => {
-  const { username, roomId } = props;
+  const { username, roomId, leaveRoomCallback } = props;
 
   const [messages, setMessages] = useState<string[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>("");
 
-  const { sendMessage, lastMessage } = useWebSocket(
+  const { sendMessage, lastMessage, getWebSocket } = useWebSocket(
     `ws://localhost:3000?username=${username}&roomId=${roomId}`
   );
 
@@ -21,6 +22,11 @@ const ChatRoom = (props: ChatRoomProps) => {
       setMessages([...messages, lastMessage?.data]);
     }
   }, [lastMessage]);
+
+  const leaveRoom = () => {
+    getWebSocket()?.close();
+    leaveRoomCallback();
+  }
 
   const handleCurrentMessageChange = (event: any) => {
     setCurrentMessage(event.target.value);
@@ -32,6 +38,7 @@ const ChatRoom = (props: ChatRoomProps) => {
 
   return (
     <div className="h-screen">
+      <button onClick={leaveRoom}>Leave Room</button>
       <h1 className="text-left">Room: {roomId}</h1>
       <div>
         {messages.map((message: string, index: number) => {
