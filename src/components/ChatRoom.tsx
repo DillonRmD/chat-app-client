@@ -14,7 +14,9 @@ const ChatRoom = (props: ChatRoomProps) => {
   const [currentMessage, setCurrentMessage] = useState<string>("");
 
   const { sendMessage, lastMessage, getWebSocket } = useWebSocket(
-    `ws://localhost:3000?username=${username}&roomId=${roomId}`
+    `ws://${import.meta.env.VITE_SERVER_PATH}:${
+      import.meta.env.VITE_SERVER_PORT
+    }?username=${username}&roomId=${roomId}`
   );
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const ChatRoom = (props: ChatRoomProps) => {
   const leaveRoom = () => {
     getWebSocket()?.close();
     leaveRoomCallback();
-  }
+  };
 
   const handleCurrentMessageChange = (event: any) => {
     setCurrentMessage(event.target.value);
