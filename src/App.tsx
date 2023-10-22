@@ -15,13 +15,13 @@ const App = () => {
   };
 
   return (
-    <div className="flex items-center">
+    <>
       {enterRoom ? (
         <ChatRoom username={username} roomId={roomId} />
       ) : (
         <JoinPage submissionCallback={handleModalSubmission} />
       )}
-    </div>
+    </>
   );
 };
 

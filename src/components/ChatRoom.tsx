@@ -1,4 +1,3 @@
-import { Button, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import useWebSocket from "react-use-websocket";
 
@@ -32,22 +31,18 @@ const ChatRoom = (props: ChatRoomProps) => {
   };
 
   return (
-    <Grid container spacing={2} direction="column">
-      Room: {roomId}
-      <Grid item direction="column">
-        <Grid item>
-          Messages
-          {messages.map((message: string, index: number) => {
-            return <h3 key={index}>{message}</h3>;
-          })}
-        </Grid>
-
-      </Grid>
-        <TextField onChange={handleCurrentMessageChange}></TextField>
-        <Button variant="contained" onClick={submitMessage}>
-          Submit
-        </Button>
-    </Grid>
+    <div className="h-screen">
+      <h1 className="text-left">Room: {roomId}</h1>
+      <div>
+        {messages.map((message: string, index: number) => {
+          return <h3 key={index}>{message}</h3>;
+        })}
+      </div>
+      <div className="sticky bottom-0">
+        <input onChange={handleCurrentMessageChange} className=""></input>
+        <button onClick={submitMessage}>Send</button>
+      </div>
+    </div>
   );
 };
 
