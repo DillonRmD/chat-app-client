@@ -1,13 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Stack,
-  TextField,
-} from "@mui/material";
 import { ChangeEvent, useState } from "react";
-import "@fontsource/roboto";
 
 interface JoinModalProps {
   submissionCallback: any;
@@ -15,62 +6,57 @@ interface JoinModalProps {
 
 const JoinModal = (props: JoinModalProps) => {
   const { submissionCallback } = props;
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(true);
-  
-  const [usernameFieldHasError, setUsernameFieldHasError] = useState<boolean>(true);
-  const [usernameFieldErrorText, setUsernameFieldErrorText] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
+
+  const [usernameFieldHasError, setUsernameFieldHasError] =
+    useState<boolean>(true);
+  const [username, setUsername] = useState<string>("");
 
   const [roomIdFieldHasError, setRoomIdFieldHasError] = useState<boolean>(true);
-  const [roomIdFieldErrorText, setRoomIdFieldErrorText] = useState<string>('');
-  const [roomId, setRoomId] = useState<string>('');
+  const [roomId, setRoomId] = useState<string>("");
 
-  const modalSubmit = () => {
-    if (!roomIdFieldHasError && !usernameFieldHasError) {
-      submissionCallback(username, roomId);
-      setModalIsOpen(false);
+  const handleButtonSubmit = () => {
+
+    if (roomIdFieldHasError || usernameFieldHasError) {
+      alert('Room ID and Username Cannot Be Empty!');
+      return;
     }
+    
+    submissionCallback(username, roomId);
   };
 
   const handleRoomIDChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
-    if (newValue === '') {
-      setRoomIdFieldHasError(true);
-      setRoomIdFieldErrorText('Must Enter A Room ID');
-    } else {
-      setRoomIdFieldHasError(false);
-      setRoomIdFieldErrorText('');
-    }
-
+    setRoomIdFieldHasError(newValue === "");
     setRoomId(newValue);
-  }
+  };
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
-    if (newValue === '') {
-      setUsernameFieldHasError(true);
-      setUsernameFieldErrorText('Must Enter A Username');
-    } else {
-      setUsernameFieldHasError(false);
-      setUsernameFieldErrorText('');
-    }
-
+    setUsernameFieldHasError(newValue === "");
     setUsername(newValue);
-  }
+  };
 
   return (
-    <Dialog open={modalIsOpen} onClose={() => {}}>
-      <DialogTitle id="alert-dialog-title">{"Enter Username and Room ID to Join"}</DialogTitle>
-      <DialogContent>
-        <Stack>
-          <TextField error={roomIdFieldHasError} required autoFocus label="Room ID" variant="filled" onChange={handleRoomIDChange} helperText={roomIdFieldErrorText}/>
-          <TextField error={usernameFieldHasError} required label="Username" variant="filled" onChange={handleUsernameChange} helperText={usernameFieldErrorText}/>
-          <Button onClick={modalSubmit} variant="contained" disabled={roomIdFieldHasError || usernameFieldHasError}>
-            Enter Chat Room
-          </Button>
-        </Stack>
-      </DialogContent>
-    </Dialog>
+    <div className="text-center">
+      <h1 className="font-medium text-indigo-500">
+        Enter Room ID and Username
+      </h1>
+      <div className="flex flex-col">
+        <input
+          onChange={handleRoomIDChange}
+          placeholder="Room ID"
+          className="rounded-lg text-slate-950 p-1.5 m-1"
+        ></input>
+        <input
+          onChange={handleUsernameChange}
+          placeholder="Username"
+          className="rounded-lg text-slate-950 p-1.5 m-1"
+        ></input>
+        <button onClick={handleButtonSubmit} className="hover m-1">
+          Enter
+        </button>
+      </div>
+    </div>
   );
 };
 

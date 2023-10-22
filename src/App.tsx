@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./App.css";
 
 import ChatRoom from "./components/ChatRoom";
 import JoinModal from "./components/JoinModal";
@@ -16,7 +15,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="flex items-center">
       {enterRoom ? (
         <ChatRoom username={username} roomId={roomId} />
       ) : (
