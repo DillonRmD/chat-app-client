@@ -1,10 +1,10 @@
 import { ChangeEvent, useState } from "react";
 
-interface JoinModalProps {
+interface JoinPageProps {
   submissionCallback: any;
 }
 
-const JoinModal = (props: JoinModalProps) => {
+const JoinPage = (props: JoinPageProps) => {
   const { submissionCallback } = props;
 
   const [usernameFieldHasError, setUsernameFieldHasError] =
@@ -60,4 +60,4 @@ const JoinModal = (props: JoinModalProps) => {
   );
 };
 
-export default JoinModal;
+export default JoinPage;

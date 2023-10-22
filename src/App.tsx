@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import ChatRoom from "./components/ChatRoom";
-import JoinModal from "./components/JoinModal";
+import JoinPage from "./components/JoinPage";
 
 const App = () => {
   const [enterRoom, setEnterRoom] = useState<boolean>(false);
@@ -19,7 +19,7 @@ const App = () => {
       {enterRoom ? (
         <ChatRoom username={username} roomId={roomId} />
       ) : (
-        <JoinModal submissionCallback={handleModalSubmission} />
+        <JoinPage submissionCallback={handleModalSubmission} />
       )}
     </div>
   );
