@@ -14,7 +14,7 @@ const ChatRoom = (props: ChatRoomProps) => {
   const [currentMessage, setCurrentMessage] = useState<string>("");
 
   const { sendMessage, lastMessage, getWebSocket } = useWebSocket(
-    `ws://${import.meta.env.VITE_SERVER_PATH}:${
+    `wss://${import.meta.env.VITE_SERVER_PATH}:${
       import.meta.env.VITE_SERVER_PORT
     }?username=${username}&roomId=${roomId}`
   );
