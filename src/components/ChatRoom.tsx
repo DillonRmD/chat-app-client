@@ -12,11 +12,12 @@ const ChatRoom = (props: ChatRoomProps) => {
 
   const [messages, setMessages] = useState<string[]>([]);
   const [currentMessage, setCurrentMessage] = useState<string>("");
+  
+  const basePath: string  = `ws://${import.meta.env.VITE_SERVER_PATH}:${import.meta.env.VITE_SERVER_PORT}`;
+  const parameters: string = `?username=${username}&roomId=${roomId}`;
 
   const { sendMessage, lastMessage, getWebSocket } = useWebSocket(
-    `wss://${import.meta.env.VITE_SERVER_PATH}:${
-      import.meta.env.VITE_SERVER_PORT
-    }?username=${username}&roomId=${roomId}`
+    basePath + parameters
   );
 
   useEffect(() => {
@@ -39,15 +40,17 @@ const ChatRoom = (props: ChatRoomProps) => {
   };
 
   return (
-    <div className="h-screen">
-      <button onClick={leaveRoom}>Leave Room</button>
-      <h1 className="text-left">Room: {roomId}</h1>
-      <div>
+    <div className="flex flex-col h-screen">
+      <div className=" flex flex-row justify-between">
+        <button onClick={leaveRoom}>Leave Room</button>
+        <h1 className="text-left">Room: {roomId}</h1>
+      </div>
+      <div className="flex-1 p-4 overflow-y-auto">
         {messages.map((message: string, index: number) => {
           return <h3 key={index}>{message}</h3>;
         })}
       </div>
-      <div className="sticky bottom-0">
+      <div className="">
         <input onChange={handleCurrentMessageChange} className=""></input>
         <button onClick={submitMessage}>Send</button>
       </div>
